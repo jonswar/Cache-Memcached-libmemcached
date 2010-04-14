@@ -87,6 +87,11 @@ sub new
     my $class = shift;
     my $args  = shift || {};
 
+    if ($args->{share_between_namespaces}) {
+        return Cache::Memcached::libmemcached::ShareBetweenNamespaces->new
+            ({%$args, cml_class => $class});
+    }
+
     $args->{servers} || die "No servers specified";
 
     my $self = $class->SUPER::new();
