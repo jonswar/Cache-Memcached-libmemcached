@@ -5,6 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use Cache::Memcached::libmemcached;
+use Cache::Memcached::libmemcached::ShareBetweenNamespaces;
 use Test::More;
 
 our @EXPORT = qw(
@@ -12,6 +13,7 @@ our @EXPORT = qw(
     libmemcached_test_key
     libmemcached_version_ge
     libmemcached_test_servers
+    libmemcached_isa_ok
 );
 
 sub libmemcached_test_servers {
@@ -30,6 +32,10 @@ sub libmemcached_test_create {
 
     if ($ENV{LIBMEMCACHED_BINARY_PROTOCOL}) {
         $args->{binary_protocol} = 1;
+    }
+
+    if ($ENV{LIBMEMCACHED_SHARE_BETWEEN_NAMESPACES}) {
+        $args->{share_between_namespaces} = 1;
     }
 
     my $cache = Cache::Memcached::libmemcached->new($args);
@@ -72,6 +78,12 @@ sub libmemcached_test_key {
     # but returns the same value for the life of the script
     our $time_rand ||= ($^T + rand());
     return $time_rand;
+}
+
+sub libmemcached_isa_ok {
+    my $cache = shift;
+    ok($cache->isa('Cache::Memcached::libmemcached') ||
+       $cache->isa('Cache::Memcached::libmemcached::ShareBetweenNamespaces'));
 }
 
 1;
