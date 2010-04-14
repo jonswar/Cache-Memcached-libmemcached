@@ -20,7 +20,7 @@ plan(skip_all => "cas() unimplemented");
 #    support_cas => 1,
 #} );
 #
-#isa_ok($cache, "Cache::Memcached::libmemcached");
+#libmemcached_isa_ok($cache);
 #
 ## XXX The stats() method is half baked, and you should NOT be using it 
 ## in your code! DON'T TRUST THIS CODE!

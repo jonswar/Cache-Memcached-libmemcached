@@ -8,7 +8,7 @@ plan(tests => 8);
 
 {
     my $cache = libmemcached_test_create();
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     is( $cache->get_hashing_algorithm,
         Memcached::libmemcached::MEMCACHED_HASH_DEFAULT );
@@ -28,7 +28,7 @@ plan(tests => 8);
     my $cache = libmemcached_test_create( {
         hashing_algorithm => Memcached::libmemcached::MEMCACHED_HASH_MD5(),
     } );
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     is( $cache->get_hashing_algorithm,
         Memcached::libmemcached::MEMCACHED_HASH_MD5 );

@@ -7,7 +7,7 @@ my $cache = libmemcached_test_create();
 
 plan(tests => 9);
 
-isa_ok($cache, "Cache::Memcached::libmemcached");
+libmemcached_isa_ok($cache);
 
 {
     my @keys = ('a' .. 'z');
@@ -41,7 +41,7 @@ TODO: {
     my $cache2 = libmemcached_test_create( {
         namespace => "t$$"
     } );
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
     
     my @keys = ('A' .. 'Z');
     foreach my $key (@keys) {

@@ -8,7 +8,7 @@ plan(tests => 8);
 
 {
     my $cache = libmemcached_test_create();
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     ok( ! $cache->is_no_block );
 
@@ -26,7 +26,7 @@ plan(tests => 8);
     my $cache = libmemcached_test_create({
         no_block => 1,
     } );
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     ok( $cache->is_no_block );
 

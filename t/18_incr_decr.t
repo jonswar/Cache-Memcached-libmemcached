@@ -9,7 +9,7 @@ my $cache = libmemcached_test_create( {
 
 plan(tests => 5);
 
-isa_ok($cache, "Cache::Memcached::libmemcached");
+libmemcached_isa_ok($cache);
 
 {
     my $key = 'foo';

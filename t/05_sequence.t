@@ -5,7 +5,7 @@ use Test::More;
 
 my $cache = libmemcached_test_create();
 plan(tests => 22);
-isa_ok($cache, "Cache::Memcached::libmemcached");
+libmemcached_isa_ok($cache);
 
 {
     $cache->set("num", 0);

@@ -11,7 +11,7 @@ if ($@) {
 my $cache = libmemcached_test_create();
 plan tests => 2;
 
-isa_ok($cache, "Cache::Memcached::libmemcached");
+libmemcached_isa_ok($cache);
 
 my $cm = Cache::Memcached->new( {
     servers => [ libmemcached_test_servers() ]

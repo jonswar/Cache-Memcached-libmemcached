@@ -8,7 +8,7 @@ plan(tests => 8);
 
 {
     my $cache = libmemcached_test_create();
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     is( $cache->get_distribution_method,
         Memcached::libmemcached::MEMCACHED_DISTRIBUTION_MODULA );
@@ -28,7 +28,7 @@ plan(tests => 8);
     my $cache = libmemcached_test_create( {
         distribution_method => Memcached::libmemcached::MEMCACHED_DISTRIBUTION_CONSISTENT(),
     } );
-    isa_ok($cache, "Cache::Memcached::libmemcached");
+    libmemcached_isa_ok($cache);
 
     is( $cache->get_distribution_method,
         Memcached::libmemcached::MEMCACHED_DISTRIBUTION_CONSISTENT );
