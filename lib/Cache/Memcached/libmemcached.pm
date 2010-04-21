@@ -359,9 +359,10 @@ Cache::Memcached::libmemcached - Perl Interface to libmemcached
   # See Memcached::libmemcached::constants for a list of available options
   my $memd = Cache::Memcached::libmemcached->new({
     ...,
-    no_block            => $boolean,
-    distribution_method => $distribution_method,
-    hashing_algorithm   => $hashing_algorithm,
+    no_block                 => $boolean,
+    distribution_method      => $distribution_method,
+    hashing_algorithm        => $hashing_algorithm,
+    share_between_namespaces => $boolean,
   });
 
 =head1 DESCRIPTION
@@ -677,6 +678,61 @@ set an environment variable named PERL_LIBMEMCACHED_OPTIMIZE to a true value
 
 If you are 100% sure that you won't be using the master key support, where 
 you provide an arrayref as the key, you get about 4~5% performance boost.
+
+=head1 SHARING MEMCACHED CONNECTION BETWEEN NAMESPACES
+
+By default, if you create multiple Cache::Memcached::libmemcached objects
+with different namespaces, each one will make a separate connection to memcached.
+This is different from Cache::Memcached, which shares socket connections to the
+same server and port, and can be problematic if you use a lot of namespaces.
+
+Passing share_between_namespaces to the constructor:
+
+  $memd = Cache::Memcached::libmemcached->new( {
+    ...
+    share_between_namespaces => 1
+  } );
+
+will use a single Cache::Memcached::libmemcached object to represent
+multiple namespaces where all other parameters are the same. e.g.
+
+  # These will be represented by the same object
+  $memd = Cache::Memcached::libmemcached->new( {
+    servers => [ "10.0.0.15:11211" ],
+    namespace => 'foo',
+    share_between_namespaces => 1
+  } );
+  $memd = Cache::Memcached::libmemcached->new( {
+    servers => [ "10.0.0.15:11211" ],
+    namespace => 'bar',
+    share_between_namespaces => 1
+  } );
+
+  # This will be a different object
+  $memd = Cache::Memcached::libmemcached->new( {
+    servers => [ "10.0.0.23:11211" ],
+    namespace => 'baz',
+    share_between_namespaces => 1
+  } );
+
+Most behavior should be exactly the same if you use this parameter, with the
+following exceptions:
+
+=over
+
+=item *
+
+the ref() of the object that comes back will be different
+
+=item *
+
+all methods will take an extra hop through AUTOLOAD
+
+=item *
+
+you will not be able to call $memd->namespace() to check or set the namespace
+
+=back
 
 =head1 VARIOUS MEMCACHED MODULES
 
