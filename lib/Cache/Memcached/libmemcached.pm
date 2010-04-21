@@ -6,6 +6,7 @@ use base qw(Memcached::libmemcached);
 use Carp qw(croak);
 use Scalar::Util qw(weaken);
 use Storable ();
+use Cache::Memcached::libmemcached::ShareBetweenNamespaces; 
 
 our $VERSION = '0.02010';
 
