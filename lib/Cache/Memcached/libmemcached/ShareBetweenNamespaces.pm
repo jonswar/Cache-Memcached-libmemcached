@@ -7,15 +7,15 @@ my %cml_objects;
 
 sub new {
     my ( $class, $params ) = @_;
-    delete($params->{share_between_namespaces});
+    delete( $params->{share_between_namespaces} );
     my $namespace = delete( $params->{namespace} ) || '';
-    my $cml_object = delete($params->{cml_object});
+    my $cml_object = delete( $params->{cml_object} );
 
-    if (!$cml_object) {
+    if ( !$cml_object ) {
         my $cml_class = delete( $params->{cml_class} )
-            || 'Cache::Memcached::libmemcached';
-        
-        my $cml_object_key = _dump_one_line([$class, $cml_class, $params]);
+          || 'Cache::Memcached::libmemcached';
+
+        my $cml_object_key = _dump_one_line( [ $class, $cml_class, $params ] );
         if ( !( $cml_objects{$cml_object_key} ) ) {
             $cml_objects{$cml_object_key} = $cml_class->new($params);
         }
@@ -36,10 +36,10 @@ sub cml_object { return $_[0]->{cml_object} }
 sub _dump_one_line {
     my ($value) = @_;
 
-    local $Data::Dumper::Indent = 0;
-    local $Data::Dumper::Sortkeys = 1;
+    local $Data::Dumper::Indent    = 0;
+    local $Data::Dumper::Sortkeys  = 1;
     local $Data::Dumper::Quotekeys = 0;
-    local $Data::Dumper::Terse = 1;
+    local $Data::Dumper::Terse     = 1;
     return Dumper($value);
 }
 
